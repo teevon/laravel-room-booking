@@ -33,6 +33,6 @@ Route::get('rooms/category', 'RoomController@category');
 
 Route::get('reservations/conflicts', 'ReservationController@date_conflict');
 
-Route::post('payments/', 'PaymentController@store');
+Route::post('payments', 'PaymentController@store');
 
-Route::post('transactions/', 'TransactionController@store');
+Route::post('transactions', 'TransactionController@store');
