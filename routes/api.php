@@ -26,7 +26,7 @@ Route::put('guests/{guest}', 'GuestController@update');
 Route::delete('guests/{guest}', 'GuestController@destroy');
 
 Route::post('bookings/custom', 'BookingController@custom_listing');
-Route::post('bookings/', 'BookingController@store');
+Route::post('bookings', 'BookingController@store');
 
 Route::post('rooms', 'RoomController@index');
 Route::get('rooms/category', 'RoomController@category');
