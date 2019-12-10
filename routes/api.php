@@ -17,10 +17,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('vue', 'TestingVueController@index');
+Route::get('guests', 'GuestController@index');
+Route::get('guests/create', 'GuestController@create');
+Route::post('guests', 'GuestController@store');
+Route::get('guests/{guest}', 'GuestController@show');
+Route::get('guests/{guest}/edit', 'GuestController@edit');
+Route::put('guests/{guest}', 'GuestController@update');
+Route::delete('guests/{guest}', 'GuestController@destroy');
 
-Route::get('students', 'ApiController@getAllStudents');
-Route::get('students/{id}', 'ApiController@getStudent');
-Route::post('students', 'ApiController@createStudent');
-Route::put('students/{id}', 'ApiController@updateStudent');
-Route::delete('students/{id}', 'ApiController@deleteStudent');;
+Route::post('bookings/custom', 'BookingController@custom_listing');
+Route::post('bookings/', 'BookingController@store');
+
+Route::post('rooms', 'RoomController@index');
+Route::get('rooms/category', 'RoomController@category');
+
+Route::get('reservations/conflicts', 'ReservationController@date_conflict');
+
+Route::post('payments/', 'PaymentController@store');
+
+Route::post('transactions/', 'TransactionController@store');

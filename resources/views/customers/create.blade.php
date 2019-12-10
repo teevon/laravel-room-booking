@@ -11,7 +11,7 @@
  </div>
   <div class="row">
     <div class="col-12">
-    <form action='/customers' method="post">
+    <form action='/customers' method="post" enctype="multipart/form-data">
       @include('customers.form')
 
     <button type="submit" class="btn btn-primary">Add Customer</button>

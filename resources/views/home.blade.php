@@ -14,9 +14,7 @@
                         </div>
                     @endif
 
-                    <my-button text="test" type="submit"></my-button>
-
-                    
+                    You are logged in!
                 </div>
             </div>
         </div>
