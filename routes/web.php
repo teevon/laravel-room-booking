@@ -24,6 +24,11 @@ Route::get('/clear-cache', function() {
     return "Cache is cleared";
 });
 
+Route::get('/clear-view', function() {
+    Artisan::call('view:clear');
+    return "View is cleared";
+});
+
 //Route::post();
 
 
