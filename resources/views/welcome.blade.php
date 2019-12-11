@@ -67,7 +67,6 @@
             </div>
         </div>
         <footer class="f-12">
-            <p class = "text-center">&copy; 2012 - <?php echo date('Y') ?> Webplay Nig Ltd. All Rights Reserved.</p>
             <p class = "text-center"><?php echo date('Y') ?></p>
         </footer>
     </body>

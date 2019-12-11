@@ -24,7 +24,7 @@ class CreateGuestsTable extends Migration
             //$table->dateTime("last_checkin");
             $table->timestamp("check_in_date")->useCurrent();
             $table->integer("room_outstanding");
-            $table->integer("restaurant_outstanding")->nullable();
+            $table->integer("restaurant_outstanding")->default('0');
             $table->string("checked_out")->default('NO');
             $table->string("checked_in")->default('YES');
             $table->integer("visit_count")->default('1');

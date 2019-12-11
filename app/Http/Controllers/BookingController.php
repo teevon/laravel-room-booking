@@ -48,7 +48,7 @@ class BookingController extends Controller
     		${"$key"} = $value;
     	}
 
-    	$room_outstanding = $room_outstanding ? $room_outstanding + $balance : $balance;
+    	$room_outstanding = $balance;
     	$guest = compact("guest_name", "guest_id", "guest_type_gender", "phone_number", "contact_address", "room_outstanding", "total_rooms_booked");
 
     	$reservation_response = app('App\Http\Controllers\ReservationController')->date_conflict($rooms);

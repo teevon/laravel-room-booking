@@ -17,8 +17,8 @@ class CreateBookingsTable extends Migration
             $table->bigIncrements('id');
             $table->string('booking_ref');
             $table->integer("room_number");
-            $table->integer("room_id")->nullable();
-            $table->integer("room_category")->nullable();
+            $table->string("room_id");
+            $table->string("room_category")->nullable();
             $table->integer("room_rate");
             $table->string("guest_name")->nullable();
             $table->string("guest_id")->nullable();

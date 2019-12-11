@@ -82,17 +82,17 @@ $templates = ["Dashboard"=>"./assets/js/dashboard/dashPartial.php","Lodge"=>"./a
                 </ul>
             </div>
         </div>
-        
+        @endverbatim 
         <div class="main"   ng-switch on="sidebarnav.navig.activeNav">
             
             <?php foreach($templates as $key => $value): ?>
             <div class  = "<?php echo $key ?>" ng-switch-when = "<?php echo $key; ?>">
-                <div ng-include ng-init = "settings.userDefinition('<?php echo 'user_name'; ?>', '<?php echo 'role'; ?>');" src = "'<?php echo $value; ?>'"></div>
+                <div ng-include ng-init = "settings.userDefinition('<?php echo 'user'; ?>', '<?php echo 'role'; ?>');" src = "'<?php echo $value; ?>'"></div>
             </div>
             <?php endforeach;?>
         </div>
     </div>
-@endverbatim
+
 
 </body>
 
