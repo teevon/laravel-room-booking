@@ -284,7 +284,7 @@ dashApp.controller("dashboard", ["$rootScope", "$scope", 'jsonPost', '$filter', 
         addGuest: function (jsonguest) {
             console.log("new Guest", jsonguest);
 
-            jsonPost.data("/api/bookings/", {
+            jsonPost.data("/api/bookings", {
                 checkin_data: $filter('json')(jsonguest)
             }).then(function (response) {
                 console.log("response: ");
