@@ -335,7 +335,7 @@ dashApp.controller("dashboard", ["$rootScope", "$scope", 'jsonPost', '$filter', 
             jsonguest.booking_ref = $scope.booking.selected[0].booking_ref;
             console.log("new checkOut", jsonguest);
 
-            jsonPost.data("../php1/front_desk/checkOut.php", {
+            jsonPost.data("/api/bookings/checkout", {
                 checkout_data: $filter('json')(jsonguest)
             }).then(function (response) {
                 console.log(response);
@@ -344,7 +344,7 @@ dashApp.controller("dashboard", ["$rootScope", "$scope", 'jsonPost', '$filter', 
                 res = $rootScope.settings.modal.msgprompt(response);
                 res ? $scope.guest.jslist.createList() : null;
                 $scope.guest.itemlist().jsonfunc.then(function(response){
-                    $scope.guest.jslist.selectedObj =  $filter('filterObj')(response,$scope.guest.jslist.selected, ['guest_id']);
+                    $scope.guest.jslist.selectedObj =  $filter('filterObj')(response.data,$scope.guest.jslist.selected, ['guest_id']);
                     $scope.guest.jslist.selected = $scope.guest.jslist.selectedObj.guest_id;
                     console.log($scope.guest.jslist.selectedObj);
                 });

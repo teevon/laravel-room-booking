@@ -118,8 +118,6 @@ class BookingController extends Controller
       $rooms = $checkout_data["rooms"];
       $no_of_rooms = count($rooms);
 
-      $msg_response=["OUTPUT", "NOTHING HAPPENED"];
-
       $active_guest = Booking::where([
         ['guest_id', $guest_id],
         ['checked_out', '0'] 
@@ -142,14 +140,14 @@ class BookingController extends Controller
         $room_checkout->current_guest_id = "";
         $room_checkout->booking_ref = "";
         $room_checkout->booking_expires = "0";
-        //$room_checkout->save();
+        $room_checkout->save();
 
         $bookings_checkout = Booking::where([
           ['booking_ref', $booking_ref],
           ['room_id', $room["room_id"]]])->firstOrFail();
         $bookings_checkout->checked_out = 1;
         $bookings_checkout->check_out_time = now();
-        //$bookings_checkout->save();
+        $bookings_checkout->save();
       }
 
       $guest = Guest::where('guest_id', $guest_id)->firstOrFail();
@@ -163,6 +161,9 @@ class BookingController extends Controller
         $guest->checked_out = "YES";
         $guest->checked_in = "NO";  
       }
-      //$guest->save();
+      $guest->save();
+      $msg_response[0] = "OUTPUT";
+      $msg_response[1] = "CHECKED OUT";
+      return response()->json($msg_response, 200);
     }
 }
