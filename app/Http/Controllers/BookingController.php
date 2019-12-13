@@ -108,4 +108,61 @@ class BookingController extends Controller
 
     	//return response()->json([ "OUTPUT" ,"Rooms Booked successfully " ], 200);
     }
+
+    public function checkout(Request $request) {
+      $checkout_data = json_decode($request->input('checkout_data'), true);
+
+      $guest_name = $checkout_data["guest_name"];
+      $booking_ref = $checkout_data["booking_ref"];
+      $guest_id = $checkout_data["guest_id"];
+      $rooms = $checkout_data["rooms"];
+      $no_of_rooms = count($rooms);
+
+      $msg_response=["OUTPUT", "NOTHING HAPPENED"];
+
+      $active_guest = Booking::where([
+        ['guest_id', $guest_id],
+        ['checked_out', '0'] 
+      ])->get();
+
+      $guest = Guest::where('guest_id', $guest_id)->firstOrFail();
+
+      if(count($active_guest) == $no_of_rooms) {
+        if($guest->room_outstanding != 0) {
+          $msg_response[0] = "ERROR";
+          $msg_response[1] = "This guest has outstanding room charges";
+          return response()->json($msg_response, 201);
+        }
+      }
+
+      foreach ($rooms as $room) {
+        $room_checkout = Room::where('room_id', $room["room_id"])->firstOrFail();
+        $room_checkout->booked = 0;
+        $room_checkout->guests = 0;
+        $room_checkout->current_guest_id = "";
+        $room_checkout->booking_ref = "";
+        $room_checkout->booking_expires = "0";
+        //$room_checkout->save();
+
+        $bookings_checkout = Booking::where([
+          ['booking_ref', $booking_ref],
+          ['room_id', $room["room_id"]]])->firstOrFail();
+        $bookings_checkout->checked_out = 1;
+        $bookings_checkout->check_out_time = now();
+        //$bookings_checkout->save();
+      }
+
+      $guest = Guest::where('guest_id', $guest_id)->firstOrFail();
+      $guest->total_rooms_booked = $guest->total_rooms_booked - $no_of_rooms;
+      if(Booking::where([
+        ['guest_id', $guest_id], 
+        ['checked_out', '0']])->exists()) { 
+      }  
+      else {
+        $guest->visit_count = $guest->visit_count + 1;
+        $guest->checked_out = "YES";
+        $guest->checked_in = "NO";  
+      }
+      //$guest->save();
+    }
 }
