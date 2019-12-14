@@ -9,8 +9,9 @@
 
                 <div class="card-body">
                   <div>
-                      <h6>Test Username: <span class="text-info">admin@mail.com</span></h6>
-                      <h6>Test Password: <span class="text-success">password</span></h6>
+                      <small>Test Username: <span class="text-info">admin@mail.com</span>
+                      </small><br>
+                      <small>Test Password: <span class="text-success">password</span></small>
                   </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
