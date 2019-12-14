@@ -344,7 +344,7 @@ dashApp.controller("dashboard", ["$rootScope", "$scope", 'jsonPost', '$filter', 
                 res = $rootScope.settings.modal.msgprompt(response);
                 res ? $scope.guest.jslist.createList() : null;
                 $scope.guest.itemlist().jsonfunc.then(function(response){
-                    $scope.guest.jslist.selectedObj =  $filter('filterObj')(response.data,$scope.guest.jslist.selected, ['guest_id']);
+                    $scope.guest.jslist.selectedObj =  $filter('filterObj')(response,$scope.guest.jslist.selected, ['guest_id']);
                     $scope.guest.jslist.selected = $scope.guest.jslist.selectedObj.guest_id;
                     console.log($scope.guest.jslist.selectedObj);
                 });

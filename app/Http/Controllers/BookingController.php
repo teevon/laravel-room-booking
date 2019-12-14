@@ -157,7 +157,6 @@ class BookingController extends Controller
         ['checked_out', '0']])->exists()) { 
       }  
       else {
-        $guest->visit_count = $guest->visit_count + 1;
         $guest->checked_out = "YES";
         $guest->checked_in = "NO";  
       }
