@@ -27,7 +27,10 @@ class BookingController extends Controller
           $check_val = strval($val);
         }
 
-        $bookings = Booking::where([[$column, $check_val]])->get();
+        $bookings = Booking::where([
+          [$column, $check_val], 
+          ["checked_out", "0"]
+          ])->get();
         echo json_encode($bookings);
     }
 
@@ -129,6 +132,18 @@ class BookingController extends Controller
         if($guest->room_outstanding != 0) {
           $msg_response[0] = "ERROR";
           $msg_response[1] = "This guest has outstanding room charges";
+          return response()->json($msg_response, 201);
+        }
+      }
+
+      foreach ($rooms as $room) {
+        if(Room::where([
+        ['current_guest_id', $guest_id],
+        ['room_id', $room["room_id"]]
+        ])->exists()) {} 
+          else {
+          $msg_response[0] = "ERROR";
+          $msg_response[1] = "This guest is not booked in room with id " . $room["room_id"];
           return response()->json($msg_response, 201);
         }
       }
