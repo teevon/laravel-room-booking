@@ -29,6 +29,8 @@ Route::get('/clear-view', function() {
     return "View is cleared";
 });
 
+Route::get('/logout', 'HomeController@logout');
+
 //Route::post();
 
 
