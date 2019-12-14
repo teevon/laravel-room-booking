@@ -139,7 +139,7 @@ class BookingController extends Controller
         $room_checkout->guests = 0;
         $room_checkout->current_guest_id = "";
         $room_checkout->booking_ref = "";
-        $room_checkout->booking_expires = "0";
+        $room_checkout->booking_expires = null;
         $room_checkout->save();
 
         $bookings_checkout = Booking::where([
