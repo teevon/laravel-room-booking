@@ -180,4 +180,80 @@ class BookingController extends Controller
       $msg_response[1] = "CHECKED OUT";
       return response()->json($msg_response, 200);
     }
+
+    public function checkin(Request $request) {
+      $checkin_data = json_decode($request->input('checkin_data'));
+
+      $booking_ref = "BK_" . mt_rand(0, 100000);
+    while (Booking::where('booking_ref', $booking_ref)->exists()) {
+      $booking_ref = "LOD_" . mt_rand(0, 100000);
+    }
+    
+    foreach ($checkin_data as $key => $value) {
+        ${"$key"} = $value;
+      }
+
+      $room_outstanding = $balance;
+
+      $reservation_response = app('App\Http\Controllers\ReservationController')->date_conflict($rooms);
+      if($reservation_response["status"] != 200) {
+        return $reservation_response;
+      }
+
+      $room_response = app('App\Http\Controllers\RoomController')->book($rooms);
+      if($room_response['status'] != 200) {
+        return $room_response["OUTPUT"];
+      }
+
+      $transaction_type = "Booking";
+      $payment_status = $balance ? "OWING" : "PAID FULL";
+
+      $transaction = compact("means_of_payment", "transaction_type", "booking_ref", "guest_id", "total_rooms_booked",
+        "total_cost", "deposited", "balance", "means_of_payment", "payment_status", "frontdesk_rep");
+      $transaction_entry = Transaction::create($transaction);
+
+      $frontdesk_txn = $booking_ref;
+      $amount_paid = $deposited;
+      $amount_balance = $balance;
+      $net_paid = $amount_paid;
+      $txn_worth = $total_cost;
+      $payment = compact("frontdesk_txn", "amount_paid", "guest_id", "txn_worth", "net_paid", "amount_balance", "means_of_payment", "frontdesk_rep");
+      $payment_entry = Payment::create($payment);
+
+      //return response()->json([ "OUTPUT" , print_r($rooms) ], 200);
+
+      foreach ($rooms as $room) {
+        foreach ($room as $index => $detail) {
+          if($index != "booking_ref") {
+            ${"$index"} = $detail;
+          }
+        }
+        $booked = compact("booking_ref", "guest_id", "guest_name", "room_number", "room_id", "room_category", "room_rate", "no_of_nights");
+        $booked["net_cost"] = $room_rate * $no_of_nights;
+        $d = strtotime("+"."$no_of_nights days");
+        $booked["expected_check_out_date"] = date("Y-m-d", $d);
+        $booking = Booking::create($booked);
+        $booked_room = Room::where('room_id', $room_id)->firstOrFail();
+        $booked_room->booked_on = now();
+        $booked_room->booked = "YES";
+        $booked_room->guests = $guests;
+        $booked_room->current_guest_id = $guest_id;
+        $booked_room->booking_ref = $booking_ref;
+        $booked_room->booking_expires = $booked["expected_check_out_date"];
+        $booked_room->save();
+      }
+
+      $guest = Guest::where('guest_id', $guest_id)->first();
+      $guest->room_outstanding = $guest->room_outstanding + $balance;
+      $guest->total_rooms_booked = $guest->total_rooms_booked + $total_rooms_booked;
+      $guest->visit_count = $guest->visit_count + 1;
+      $guest->save();
+      $res[0] = "OUTPUT";
+        $res[1] = "CHECKED IN";
+    return $res;
+
+      //return response()->json([ "OUTPUT" ,"Rooms Booked successfully " ], 200);
+    
+
+    }
 }

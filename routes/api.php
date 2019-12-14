@@ -28,6 +28,7 @@ Route::delete('/guests/{guest}', 'GuestController@destroy');
 Route::post('/bookings/custom', 'BookingController@custom_listing');
 Route::post('/bookings', 'BookingController@store');
 Route::post('/bookings/checkout', 'BookingController@checkout');
+Route::post('/bookings/checkin', 'BookingController@checkin');
 
 Route::post('/rooms', 'RoomController@index');
 Route::get('/rooms/category', 'RoomController@category');
@@ -37,3 +38,5 @@ Route::get('/reservations/conflicts', 'ReservationController@date_conflict');
 Route::post('/payments', 'PaymentController@store');
 
 Route::post('/transactions', 'TransactionController@store');
+
+Route::post('/reservations', 'ReservationController@index');

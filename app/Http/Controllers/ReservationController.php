@@ -12,6 +12,11 @@ class ReservationController extends Controller
         //$this->middleware('auth');
     }
 
+    public function index() {
+        $reservations = Reservation::get()->toJson(JSON_PRETTY_PRINT);
+        return response($reservations);
+    }
+
     public function date_conflict($rooms) {
     	$today = date("Y-m-d");
     	$reservation_conflict = [];
