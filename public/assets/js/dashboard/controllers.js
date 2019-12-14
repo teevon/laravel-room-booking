@@ -42,17 +42,18 @@ dashApp.controller("dashboard", ["$rootScope", "$scope", 'jsonPost', '$filter', 
                         primeclass: 'w-65'
                     }
                 }
-            },
-            Reservation: {
-                name: 'Reservation',
-                options: {
-                    rightbar: {
-                        present: true,
-                        rightbarclass: 'w-35',
-                        primeclass: 'w-65'
-                    }
-                }
             }
+            // ,
+            // Reservation: {
+            //     name: 'Reservation',
+            //     options: {
+            //         rightbar: {
+            //             present: true,
+            //             rightbarclass: 'w-35',
+            //             primeclass: 'w-65'
+            //         }
+            //     }
+            // }
         },
         selected: {
             name: 'Guests',
