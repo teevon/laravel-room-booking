@@ -57,18 +57,20 @@ class PaymentController extends Controller
     			$last_payment->date_of_payment = now();
     			$last_payment->means_of_payment = $means_of_payment;
     			$last_payment->frontdesk_rep = $frontdesk_rep;
+    			$last_payment->id = null;
+    			$last_payment = json_decode(json_encode($last_payment), true);
     			$new_payment = Payment::create($last_payment);
 
-    			if (!($last_payment->amount_balance)) {
+    			if (!($last_payment["amount_balance"])) {
        				$payment_status = "PAID FULL";
     			} else {
        				$payment_status = "OWING";
     			}
 
-    			$update_txn = Transaction::where('booking_ref', $last_payment->frontdesk_txn)->first();
+    			$update_txn = Transaction::where('booking_ref', $last_payment["frontdesk_txn"])->first();
     			$update_txn->payment_status = $payment_status;
     			$update_txn->deposited = $net_paid;
-    			$update_txn->balance = $last_payment->amount_balance;
+    			$update_txn->balance = $last_payment["amount_balance"];
     			$update_txn->save();
 
     			$update_guest = Guest::where('guest_id', $guest_id)->first();
@@ -85,9 +87,11 @@ class PaymentController extends Controller
     			$last_payment->date_of_payment = now();
     			$last_payment->means_of_payment = $means_of_payment;
     			$last_payment->frontdesk_rep = $frontdesk_rep;
+    			$last_payment->id = null;
+    			$last_payment = json_decode(json_encode($last_payment), true);
     			$new_payment = Payment::create($last_payment);
 
-    			$update_txn = Transaction::where('booking_ref', $last_payment->frontdesk_txn)->first();
+    			$update_txn = Transaction::where('booking_ref', $last_payment["frontdesk_txn"])->first();
     			$update_txn->payment_status = "PAID FULL";
     			$update_txn->deposited = $net_paid;
     			$update_txn->balance = 0;

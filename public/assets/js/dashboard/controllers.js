@@ -359,7 +359,7 @@ dashApp.controller("dashboard", ["$rootScope", "$scope", 'jsonPost', '$filter', 
             jsonguest.frontdesk_rep = $rootScope.settings.user;
             console.log("new payment", jsonguest);
 
-            jsonPost.data("../php1/front_desk/frontdesk_balance_pay.php", {
+            jsonPost.data("/api/payments", {
                 payment_details: $filter('json')(jsonguest)
             }).then(function (response) {
                 console.log(response);
