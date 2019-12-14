@@ -54,7 +54,7 @@ class PaymentController extends Controller
     			$last_payment->amount_balance = $last_payment->amount_balance - $amount_paid;
     			$last_payment->amount_paid = $amount_paid;
     			$last_payment->net_paid = $net_paid;
-    			$last_payment->date_of_payment = now();
+    			$last_payment->date_of_payment = date("Y-m-d");
     			$last_payment->means_of_payment = $means_of_payment;
     			$last_payment->frontdesk_rep = $frontdesk_rep;
     			$last_payment->id = null;
@@ -84,7 +84,7 @@ class PaymentController extends Controller
     			$extra = $amount_paid - $last_payment->amount_balance;
     			$last_payment->amount_balance = 0;
     			$last_payment->net_paid = $net_paid;
-    			$last_payment->date_of_payment = now();
+    			$last_payment->date_of_payment = date("Y-m-d");
     			$last_payment->means_of_payment = $means_of_payment;
     			$last_payment->frontdesk_rep = $frontdesk_rep;
     			$last_payment->id = null;
